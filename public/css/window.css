@@ -1,0 +1,75 @@
+.window {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 60%;
+    height: 60%;
+
+    background-color: rgba(255, 255, 255);
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.15);
+
+    z-index: 100;
+
+    font-family: 'Inter', sans-serif;
+
+}
+
+.window-titlebar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0.5rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.window-titlebar-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.window-titlebar-controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 0.25rem;
+}
+
+.window-titlebar-controls button {
+
+    border-radius: 0.5rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+    user-select: none;
+
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 0.5rem;
+}
+
+.window-titlebar-controls button:hover {
+    background-color: #e0e0e0;
+}
+
+.window-titlebar-controls button:active {
+    background-color: #336dff;
+    color: white;
+}
+
+button.window-titlebar-close:active {
+    background-color: #ff336d;
+}
+
+.window-content {
+    padding: 0.5rem;
+}
