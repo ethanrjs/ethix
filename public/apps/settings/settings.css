@@ -2,3 +2,113 @@
     display: flex;
     flex-direction: column;
 }
+
+/* settings-sidebar is left 20% of window
+    * settings-content is right 80% of window
+    */
+
+#settings-content-wrap {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+#settings-sidebar {
+    width: 20%;
+    height: 100%;
+    border-right: 1px solid #ccc;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0.5rem;
+
+}
+
+#settings-content {
+    width: 80%;
+    height: 100%;
+    background-color: #fff;
+    border-bottom-right-radius: 0.5rem;
+
+    padding: 0.5rem;
+}
+
+.settings-sidebar-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    cursor: default;
+    user-select: none;
+    width: 100%;
+}
+
+.settings-sidebar-item:hover {
+    background-color: #e0e0e0;
+}
+
+.settings-sidebar-item.active {
+    background-color: #336dff;
+    color: white;
+}
+
+.settings-sidebar-item-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+h1,
+h2,
+p {
+    margin: 0;
+    padding: 0;
+}
+
+#settings-content div h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+#settings-content div h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+#settings-content div p {
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+#settings-content hr {
+    /* #333 */
+    border: 1px solid #ccc;
+}
+
+#settings-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#settings-content ul li {
+    margin: 0.5rem 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#settings-content ul li span {
+    font-size: 2rem;
+    font-weight: 400;
+}

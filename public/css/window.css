@@ -24,6 +24,7 @@
 
     padding: 0.5rem;
     border-bottom: 1px solid #e0e0e0;
+    height: 3rem;
 }
 
 .window-titlebar-title {
@@ -71,5 +72,25 @@ button.window-titlebar-close:active {
 }
 
 .window-content {
-    padding: 0.5rem;
+    height: calc(100% - 3rem);
+    border-radius: 0.5rem !important;
+}
+
+.window-content-inner {
+    height: 100%;
+    border-radius: 0.5rem;
+}
+
+.window-content-inner::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+.window-content-inner::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+    border-radius: 0.5rem;
+}
+
+.window-content-inner::-webkit-scrollbar-thumb {
+    background-color: #c0c0c0;
+    border-radius: 0.5rem;
 }
