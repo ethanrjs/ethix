@@ -321,7 +321,11 @@ export class ApplicationManager {
                     const body = document.querySelector('body');
                     body.insertAdjacentHTML(
                         'beforeend',
-                        generateAppHTML(program.name, this.responseText)
+                        generateAppHTML(
+                            program.name,
+                            program.displayName,
+                            this.responseText
+                        )
                     );
                     // make window movable
                     const windowElement = document.getElementById(
@@ -339,11 +343,11 @@ export class ApplicationManager {
     }
 }
 
-function generateAppHTML(appId, htmlContent) {
+function generateAppHTML(appId, displayName, htmlContent) {
     return `
     <div id="${appId}-window" class="window">
         <div class="window-titlebar">
-            <div class="window-titlebar-title">${appId}</div>
+            <div class="window-titlebar-title">${displayName}</div>
             <div class="window-titlebar-controls">
                 <button class="window-titlebar-minimize"><span class="material-symbols-rounded">
                         close_fullscreen
