@@ -1,6 +1,9 @@
 #desktop-icons {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    /* make new elements fill column before creating new one */
+    grid-auto-rows: 100px;
+
     grid-gap: 10px;
     justify-content: center;
     margin: 0 auto;
@@ -32,16 +35,15 @@
     background-color: rgba(255, 255, 255, 0.2);
 }
 
+
 .desktop-icon span {
-    margin-top: 0.5rem;
     font-size: 3rem;
     text-align: center;
     color: white;
 }
 
 .desktop-icon p {
-    margin-top: 0.5rem;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     text-align: center;
     color: white;
     font-family: 'Inter', sans-serif;

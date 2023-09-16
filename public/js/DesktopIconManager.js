@@ -15,6 +15,9 @@ export function registerDesktopIcon(appID, appName, iconName) {
     icon.id = `desktop-icon-${appID}`;
     icon.classList.add('desktop-icon');
     icon.setAttribute('data-appname', appID);
+    const iconContent = document.createElement('div');
+    iconContent.classList.add('desktop-icon-content');
+
     const iconSpan = document.createElement('span');
     iconSpan.classList.add('material-symbols-rounded');
     iconSpan.classList.add('fill');
@@ -22,8 +25,9 @@ export function registerDesktopIcon(appID, appName, iconName) {
     const iconText = document.createElement('p');
     iconText.classList.add('desktop-icon-text');
     iconText.innerText = appName;
-    icon.appendChild(iconSpan);
-    icon.appendChild(iconText);
+    iconContent.appendChild(iconSpan);
+    iconContent.appendChild(iconText);
+    icon.appendChild(iconContent);
     document.getElementById('desktop-icons').appendChild(icon);
     // add event listener
     icon.addEventListener('click', event => {
