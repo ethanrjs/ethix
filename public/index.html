@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="css/taskbar.css">
     <link rel="stylesheet" href="css/window.css">
     <link rel="stylesheet" href="css/contextmenu.css">
+    <link rel="stylesheet" href="css/desktopicons.css">
+
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
@@ -44,6 +46,7 @@
 
     <script type="module" src="js/ApplicationManager.js"></script>
     <script type="module" src="js/ScriptLoader.js"></script>
+    <script type="module" src="js/DesktopIconManager.js"></script>
     <script src="js/ContextMenu.js"></script>
 
     <!-- user apps !-->
@@ -65,6 +68,16 @@
                 </span> Settings</li>
         </ul>
     </div>
+
+    <!-- desktop icons -->
+    <ul id="desktop-icons">
+        <li id="desktop-icon-home" class="desktop-icon" data-appname="Notes"><span
+                class="material-symbols-rounded fill">
+                description
+            </span>
+            <p class="desktop-icon-title">Editor</p>
+        </li>
+    </ul>
 
     <!-- bottom taskbar -->
     <div id="taskbar-wrapper">

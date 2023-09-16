@@ -48,6 +48,16 @@ export class Program {
         console.log(`${this.name} stopped.`);
         AppManager.closeWindow(this.name);
     }
+
+    static openFromName(name) {
+        // starts program from name defined in constructor
+        const program = AppManager.programs[name];
+        if (program) {
+            program.start();
+        } else {
+            console.log(`${name} is not registered.`);
+        }
+    }
 }
 
 export class BackgroundService {
@@ -66,8 +76,10 @@ export class BackgroundService {
 export class ApplicationManager {
     constructor() {
         this.programs = {};
+        this.runningPrograms = {};
         this.backgroundServices = {};
         this.windows = {};
+        this.moveOrder = [];
     }
 
     registerProgram(program) {
@@ -102,23 +114,24 @@ export class ApplicationManager {
             .addEventListener('click', () => {
                 this.stopProgram(program.name);
             });
+
+        this.programs[program.name] = program;
     }
 
     startProgram(name, program) {
-        if (!this.programs[name]) {
-            this.programs[name] = program;
+        if (!this.runningPrograms[name]) {
+            this.runningPrograms[name] = program;
             program.start();
         } else {
-            // restore window if it was minimized
-            this.restoreWindow(name);
+            console.log(`${name} is already running.`);
         }
     }
 
     stopProgram(name) {
-        const program = this.programs[name];
+        const program = this.runningPrograms[name];
         if (program) {
             program.stop();
-            delete this.programs[name];
+            delete this.runningPrograms[name];
         } else {
             console.log(`${name} is not running.`);
         }
@@ -147,8 +160,20 @@ export class ApplicationManager {
         if (!this.windows[name]) {
             this.windows[name] = document.getElementById(htmlElementId);
             this.windows[name].style.display = 'block';
+            // add to running programs
+            this.runningPrograms[name] = this.programs[name];
+
+            // add to running order
+            // running order is a queue of program names
+            // when a program is started, it is added to the end of the queue
+            this.moveOrder.push(name);
         } else {
-            console.log(`${name} window is already open.`);
+            console.log(`${name} window is already open. Recentering...`);
+            this.windows[name].style.display = 'block';
+            this.windows[name].style.left = '25%';
+            this.windows[name].style.top = '25%';
+            // re-add to running programs
+            this.runningPrograms[name] = this.programs[name];
         }
     }
 
@@ -157,6 +182,18 @@ export class ApplicationManager {
         if (windowElement) {
             windowElement.style.display = 'none';
             delete this.windows[name];
+            // remove from running programs
+            delete this.runningPrograms[name];
+
+            // remove from running order
+            const index = this.moveOrder.indexOf(name);
+            if (index > -1) {
+                this.moveOrder.splice(index, 1);
+            } else {
+                console.log(
+                    `Failed to remove ${name} from running order. Index not found. (This should never happen???)`
+                );
+            }
         } else {
             console.log(`${name} window is not open.`);
         }
@@ -172,18 +209,47 @@ export class ApplicationManager {
             offsetX = e.clientX - windowElement.getBoundingClientRect().left;
             offsetY = e.clientY - windowElement.getBoundingClientRect().top;
             windowElement.style.cursor = 'move';
+            // bring to front of move order
+            const index = this.moveOrder.indexOf(windowElement.id);
+            if (index > -1) {
+                this.moveOrder.splice(index, 1);
+                this.moveOrder.push(windowElement.id);
+            }
+            // set z-index to 9998 - index
+            windowElement.style.zIndex =
+                9998 - this.moveOrder.indexOf(windowElement.id);
+
+            console.log(this.moveOrder);
         });
 
         window.addEventListener('mousemove', e => {
             if (isDragging) {
                 windowElement.style.left = `${e.clientX - offsetX}px`;
                 windowElement.style.top = `${e.clientY - offsetY}px`;
+                // bring to front of move order
+                const index = this.moveOrder.indexOf(windowElement.id);
+                if (index > -1) {
+                    this.moveOrder.splice(index, 1);
+                    this.moveOrder.push(windowElement.id);
+                }
+                // set z-index to 9998 - index
+                windowElement.style.zIndex =
+                    9998 - this.moveOrder.indexOf(windowElement.id);
             }
         });
 
         window.addEventListener('mouseup', () => {
             isDragging = false;
             windowElement.style.cursor = 'default';
+            // bring to front of move order
+            const index = this.moveOrder.indexOf(windowElement.id);
+            if (index > -1) {
+                this.moveOrder.splice(index, 1);
+                this.moveOrder.push(windowElement.id);
+            }
+            // set z-index to 9998 - index
+            windowElement.style.zIndex =
+                9998 - this.moveOrder.indexOf(windowElement.id);
         });
 
         window.addEventListener('resize', () => {
@@ -207,20 +273,30 @@ export class ApplicationManager {
 
     maximizeWindow(name) {
         const windowElement = this.windows[name];
-        if (windowElement) {
-            // Save original dimensions and position
-            windowElement.dataset.originalWidth = windowElement.style.width;
-            windowElement.dataset.originalHeight = windowElement.style.height;
-            windowElement.dataset.originalLeft = windowElement.style.left;
-            windowElement.dataset.originalTop = windowElement.style.top;
-
-            // Maximize
-            windowElement.style.width = '100%';
-            windowElement.style.height = '100%';
-            windowElement.style.left = '0';
-            windowElement.style.top = '0';
+        // if fullscreen, restore, otherwise maximize
+        if (windowElement.dataset.originalWidth) {
+            this.restoreWindow(name);
+            console.log(`${name} window restored.`);
         } else {
-            console.log(`${name} window is not open.`);
+            if (windowElement) {
+                // Save original dimensions and position
+                windowElement.dataset.originalWidth =
+                    windowElement.style.width || '50%';
+                windowElement.dataset.originalHeight =
+                    windowElement.style.height || '50%';
+                windowElement.dataset.originalLeft =
+                    windowElement.style.left || '0%';
+                windowElement.dataset.originalTop =
+                    windowElement.style.top || '0%';
+
+                // Maximize
+                windowElement.style.width = '100%';
+                windowElement.style.height = '100%';
+                windowElement.style.left = '0';
+                windowElement.style.top = '0';
+            } else {
+                console.log(`${name} window is not open.`);
+            }
         }
     }
 
@@ -232,6 +308,11 @@ export class ApplicationManager {
             windowElement.style.height = windowElement.dataset.originalHeight;
             windowElement.style.left = windowElement.dataset.originalLeft;
             windowElement.style.top = windowElement.dataset.originalTop;
+
+            delete windowElement.dataset.originalWidth;
+            delete windowElement.dataset.originalHeight;
+            delete windowElement.dataset.originalLeft;
+            delete windowElement.dataset.originalTop;
         } else {
             console.log(`${name} window is not open or was never maximized.`);
         }
