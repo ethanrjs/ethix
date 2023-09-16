@@ -1,3 +1,4 @@
+import { SFXSound } from './SFXEngine.js';
 // Mock example classes to simulate programs and background services
 // jsdoc:
 /*
@@ -156,17 +157,31 @@ export class ApplicationManager {
         }
     }
 
-    openWindow(name, htmlElementId) {
+    async openWindow(name, htmlElementId) {
         if (!this.windows[name]) {
+            SFXSound('program-open');
             this.windows[name] = document.getElementById(htmlElementId);
+            // add animation 'opening' to window
+            this.windows[name].style.left = '25%';
+            this.windows[name].style.top = '25%';
             this.windows[name].style.display = 'block';
-            // add to running programs
+            this.windows[name].classList.add('opening');
+            // wait for animation to finish
+            await new Promise(resolve => {
+                this.windows[name].addEventListener('animationend', () => {
+                    resolve();
+                });
+            });
+            this.windows[name].classList.remove('opening');
+
             this.runningPrograms[name] = this.programs[name];
 
             // add to running order
             // running order is a queue of program names
             // when a program is started, it is added to the end of the queue
             this.moveOrder.push(name);
+            const zIndex = 9998 - this.moveOrder.indexOf(name);
+            this.windows[name].style.zIndex = zIndex.toString();
         } else {
             console.log(`${name} window is already open. Recentering...`);
             this.windows[name].style.display = 'block';
@@ -177,9 +192,21 @@ export class ApplicationManager {
         }
     }
 
-    closeWindow(name) {
+    async closeWindow(name) {
         const windowElement = this.windows[name];
         if (windowElement) {
+            SFXSound('program-close');
+            // add animation 'closing' to window
+            windowElement.classList.add('closing');
+            // wait for animation to finish
+            await new Promise(resolve => {
+                windowElement.addEventListener('animationend', () => {
+                    resolve();
+                });
+            });
+            // remove animation 'closing' from window
+            windowElement.classList.remove('closing');
+            // hide window
             windowElement.style.display = 'none';
             delete this.windows[name];
             // remove from running programs
@@ -213,13 +240,10 @@ export class ApplicationManager {
             const index = this.moveOrder.indexOf(windowElement.id);
             if (index > -1) {
                 this.moveOrder.splice(index, 1);
-                this.moveOrder.push(windowElement.id);
             }
-            // set z-index to 9998 - index
-            windowElement.style.zIndex =
-                9998 - this.moveOrder.indexOf(windowElement.id);
-
-            console.log(this.moveOrder);
+            this.moveOrder.push(windowElement.id);
+            const zIndex = 9998 - this.moveOrder.indexOf(windowElement.id);
+            windowElement.style.zIndex = zIndex.toString();
         });
 
         window.addEventListener('mousemove', e => {
@@ -245,11 +269,10 @@ export class ApplicationManager {
             const index = this.moveOrder.indexOf(windowElement.id);
             if (index > -1) {
                 this.moveOrder.splice(index, 1);
-                this.moveOrder.push(windowElement.id);
             }
-            // set z-index to 9998 - index
-            windowElement.style.zIndex =
-                9998 - this.moveOrder.indexOf(windowElement.id);
+            this.moveOrder.push(windowElement.id);
+            const zIndex = 9998 - this.moveOrder.indexOf(windowElement.id);
+            windowElement.style.zIndex = zIndex.toString();
         });
 
         window.addEventListener('resize', () => {

@@ -95,3 +95,37 @@ button.window-titlebar-close:active {
     background-color: #c0c0c0;
     border-radius: 0.5rem;
 }
+
+.closing {
+    animation: closing 0.15s ease-in-out;
+}
+
+/* shrink window by 10% and fade out */
+@keyframes closing {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+.opening {
+    animation: opening 0.15s ease-in-out;
+}
+
+/* grow window by 10% and fade in */
+@keyframes opening {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
