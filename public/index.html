@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/taskbar.css">
     <link rel="stylesheet" href="css/window.css">
+    <link rel="stylesheet" href="css/contextmenu.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
@@ -43,14 +44,27 @@
 
     <script type="module" src="js/ApplicationManager.js"></script>
     <script type="module" src="js/ScriptLoader.js"></script>
+    <script src="js/ContextMenu.js"></script>
 
     <!-- user apps !-->
     <!-- import map -->
 
 </head>
 
-<body>
+<body oncontextmenu="showContextMenu(event); return false;">
     <!-- online web-based operating system -->
+
+    <!-- context menu !-->
+    <div id="context-menu">
+        <ul>
+            <li id="context-menu-new"><span class="material-symbols-rounded">
+                    add
+                </span> New File</li>
+            <li id="context-menu-delete"><span class="material-symbols-rounded">
+                    settings
+                </span> Settings</li>
+        </ul>
+    </div>
 
     <!-- bottom taskbar -->
     <div id="taskbar-wrapper">

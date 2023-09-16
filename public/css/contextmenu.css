@@ -1,0 +1,47 @@
+#context-menu {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    width: fit-content;
+    position: absolute;
+    z-index: 99;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    border-radius: 0.5rem;
+
+    font-family: 'Inter', sans-serif;
+    display: none;
+}
+
+#context-menu ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    padding: 0.25rem;
+    margin: 0;
+}
+
+#context-menu li {
+    padding: 0.5rem;
+    width: 100%;
+    cursor: default;
+    user-select: none;
+    border-radius: 0.5rem;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#context-menu li:hover {
+    background-color: #e0e0e0;
+}
+
+#context-menu li:active {
+    background-color: #336dff;
+    color: white;
+}
