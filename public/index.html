@@ -10,7 +10,9 @@
                 {
                     "imports": {
                         "apps": "./js/apps/",
-                        "ApplicationManager": "./js/ApplicationManager.js"
+                        "ApplicationManager": "./js/ApplicationManager.js",
+                        "NotificationManager": "./js/NotificationManager.js",
+                        "DesktopIconManager": "./js/DesktopIconManager.js"
                     }
                 }
             </script>
@@ -38,10 +40,12 @@
 
         .material-symbols-rounded.fill {
             font-variation-settings:
-                'FILL' 1,
-                'wght' 400,
-                'GRAD' 0,
-                'opsz' 24
+                'FILL' 1 !important
+        }
+
+        .material-symbols-rounded.thin {
+            font-variation-settings:
+                'wght' 200 !important
         }
     </style>
 
@@ -50,6 +54,7 @@
     <script type="module" src="js/ScriptLoader.js"></script>
     <script type="module" src="js/DesktopIconManager.js"></script>
     <script type="module" src="js/NotificationManager.js"></script>
+    <script type="module" src="js/Taskbar.js"></script>
 
     <script src="js/ContextMenu.js"></script>
 
@@ -79,33 +84,31 @@
 
     <!-- desktop icons -->
     <ul id="desktop-icons">
-        <li id="desktop-icon-home" class="desktop-icon" data-appname="Notes"><span
+        <li id="desktop-icon-home" class="desktop-icon" data-appname="ethix-notes"><span
                 class="material-symbols-rounded fill">
                 description
             </span>
             <p class="desktop-icon-title">Editor</p>
         </li>
+
     </ul>
-
-    <!-- notification stack -->
-
 
     <!-- bottom taskbar -->
     <div id="taskbar-wrapper">
         <ul id="taskbar">
-            <li id="taskbar-home"><span class="material-symbols-rounded">
+            <li id="taskbar-home" data-appname="ethix-home"><span class="material-symbols-rounded thin">
                     home
                 </span></li>
-            <li id="taskbar-apps"><span class="material-symbols-rounded">
+            <li id="taskbar-apps" data-appname="ethix-home"><span class="material-symbols-rounded thin">
                     apps
                 </span></li>
-            <li id="taskbar-files"><span class="material-symbols-rounded">
+            <li id="taskbar-files" data-appname="ethix-home"><span class="material-symbols-rounded thin">
                     folder
                 </span></li>
-            <li id="taskbar-shell"><span class="material-symbols-rounded">
+            <li id="taskbar-shell" data-appname="ethix-home"><span class="material-symbols-rounded thin">
                     terminal
                 </span></li>
-            <li id="taskbar-settings"><span class="material-symbols-rounded">
+            <li id="taskbar-settings" data-appname="ethix-settings"><span class="material-symbols-rounded thin">
                     settings
                 </span></li>
         </ul>

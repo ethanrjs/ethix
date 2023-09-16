@@ -11,21 +11,11 @@ import { SFXSound } from './SFXEngine.js';
  * @property {function} onLoad - The function to call when the program is loaded.
  */
 export class Program {
-    constructor(
-        name,
-        windowId,
-        startButtonId,
-        htmlFile,
-        stylesheets = [],
-        onLoad
-    ) {
+    constructor(name, displayName, htmlFile, onLoad) {
         this.name = name;
-        this.windowId = windowId;
-        this.startButtonId = startButtonId;
+        this.displayName = displayName;
+        this.windowId = `${name}-window`; // id of the window element
         this.htmlFile = htmlFile;
-        this.stylesheets = Array.isArray(stylesheets)
-            ? stylesheets
-            : [stylesheets];
 
         this.onLoad = onLoad;
 
@@ -41,7 +31,6 @@ export class Program {
 
     start() {
         console.log(`${this.name} started.`);
-        ApplicationManager.loadStyles(this.stylesheets);
         AppManager.openWindow(this.name, this.windowId);
     }
 
@@ -135,25 +124,6 @@ export class ApplicationManager {
             delete this.runningPrograms[name];
         } else {
             console.log(`${name} is not running.`);
-        }
-    }
-
-    startBackgroundService(name, service) {
-        if (!this.backgroundServices[name]) {
-            this.backgroundServices[name] = service;
-            service.start();
-        } else {
-            console.log(`${name} service is already running.`);
-        }
-    }
-
-    stopBackgroundService(name) {
-        const service = this.backgroundServices[name];
-        if (service) {
-            service.stop();
-            delete this.backgroundServices[name];
-        } else {
-            console.log(`${name} service is not running.`);
         }
     }
 
@@ -341,33 +311,24 @@ export class ApplicationManager {
         }
     }
 
-    static loadStyles(stylesheets) {
-        stylesheets.forEach(stylesheet => {
-            const linkElement = document.createElement('link');
-            linkElement.rel = 'stylesheet';
-            linkElement.type = 'text/css';
-            linkElement.href = stylesheet;
-            linkElement.id = `${stylesheet}-stylesheet`;
-            document.head.appendChild(linkElement);
-        });
-    }
-
     static async loadHtml(program) {
         return new Promise((resolve, reject) => {
             console.log(`Loading ${program.name} HTML...`);
             const xhr = new XMLHttpRequest();
-            xhr.open('GET', program.htmlFile, true);
+            xhr.open('GET', `/apps/${program.name}/${program.htmlFile}`); // `/${program.name}/${program.htmlFile}
             xhr.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
-                    console.log(`${program.name} HTML loaded successfully.`);
                     const body = document.querySelector('body');
-                    body.insertAdjacentHTML('beforeend', this.responseText);
+                    body.insertAdjacentHTML(
+                        'beforeend',
+                        generateAppHTML(program.name, this.responseText)
+                    );
                     // make window movable
                     const windowElement = document.getElementById(
                         program.windowId
                     );
                     AppManager.makeWindowMovable(windowElement);
-
+                    console.log(`${program.name} HTML loaded successfully.`);
                     resolve();
                 } else if (this.readyState == 4) {
                     reject(new Error('Failed to load HTML.'));
@@ -378,4 +339,31 @@ export class ApplicationManager {
     }
 }
 
+function generateAppHTML(appId, htmlContent) {
+    return `
+    <div id="${appId}-window" class="window">
+        <div class="window-titlebar">
+            <div class="window-titlebar-title">${appId}</div>
+            <div class="window-titlebar-controls">
+                <button class="window-titlebar-minimize"><span class="material-symbols-rounded">
+                        close_fullscreen
+                    </span></button>
+                <button class="window-titlebar-maximize"><span class="material-symbols-rounded">
+                        open_in_full
+                    </span></button>
+                <button class="window-titlebar-close"><span class="material-symbols-rounded">
+                        close
+                    </span></button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="window-content-inner">
+                
+                ${htmlContent}
+
+            </div>
+        </div>
+    </div>
+    `;
+}
 export let AppManager = new ApplicationManager();

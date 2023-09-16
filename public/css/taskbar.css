@@ -42,6 +42,8 @@
 
 #taskbar li span {
     font-size: 2rem;
+    color: #333;
+    font-weight: 300;
 }
 
 #taskbar li:hover {
@@ -50,5 +52,8 @@
 
 #taskbar li:active {
     background-color: #336dff;
-    color: white;
+}
+
+#taskbar li:active span {
+    color: #fff;
 }

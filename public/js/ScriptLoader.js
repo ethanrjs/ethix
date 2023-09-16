@@ -1,5 +1,7 @@
 // function to insert a single script into the document's head
 import { createNotification } from './NotificationManager.js';
+let start = new Date();
+
 const loadScript = src => {
     return new Promise((resolve, reject) => {
         const script = document.createElement('script');
@@ -13,7 +15,6 @@ const loadScript = src => {
 
 // main function to load all scripts
 const loadAllScripts = async () => {
-    let start = new Date();
     try {
         // get the list of script paths from the server
         const response = await fetch('/scripts');
@@ -22,12 +23,9 @@ const loadAllScripts = async () => {
         }
 
         const scriptPaths = await response.json(); // assuming server returns json
-        // alternatively, use response.text() if server returns plain text
 
-        // insert all the scripts
-        for (const path of scriptPaths) {
-            await loadScript(path);
-        }
+        // use Promise.all to load all the scripts concurrently
+        await Promise.all(scriptPaths.map(path => loadScript(path)));
 
         console.log('all scripts loaded');
         let end = new Date();
@@ -38,5 +36,4 @@ const loadAllScripts = async () => {
     }
 };
 
-// load all scripts when the page has loaded
-document.addEventListener('DOMContentLoaded', loadAllScripts);
+loadAllScripts();

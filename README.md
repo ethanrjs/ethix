@@ -48,7 +48,8 @@ import { Program } from 'ApplicationManager';
 function main() {} // Runs when the program is ready
 
 new Program(
-    'application-name', // the name of the application
+    'application-id', // the name of the application
+    'application-display-name', // the name of the application to display in titles, etc.
     'window-defined-in-index.html', // the window to use
     'index.html', // your HTML file containing the window code
     main // the function to run when the program is ready

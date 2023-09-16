@@ -23,7 +23,7 @@
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 0.5rem;
-    padding: 0.25rem;
+    padding: 1rem 0;
     box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
     overflow: hidden;
     position: relative;
@@ -42,6 +42,8 @@
     justify-content: flex-start;
     gap: 1rem;
     border-bottom: 1px solid #ddd;
+    padding-left: .5rem;
+    padding-bottom: 1rem;
 }
 
 #notification-stack .notification .notification-header .notification-title {
@@ -50,7 +52,8 @@
 }
 
 #notification-stack .notification .notification-body {
-    padding-left: 0.25rem;
+    padding-left: 3rem;
+    padding-top: 0.5rem;
 }
 
 @keyframes notification-slide-in {

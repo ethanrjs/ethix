@@ -6,7 +6,7 @@ let options = {
 
 function main() {
     console.time('settings loaded');
-    console.log(document.getElementById('settings-window'));
+    console.log(document.getElementById('ethix-settings-window'));
     const settingsOptions = document.querySelectorAll(
         '.settings-options-option span'
     );
@@ -27,14 +27,7 @@ function main() {
     console.timeEnd('settings loaded');
 }
 
-new Program(
-    'Settings',
-    'settings-window',
-    'taskbar-settings',
-    'apps/settings/settings.html',
-    'apps/settings/settings.css',
-    main
-);
+new Program('ethix-settings', 'Settings', 'settings.html', main);
 
 // select all .settings-option-option span elements
 // when clicked, toggle them (toggle class 'enabled', if the content of the span is toggle_on set it to toggle_off and vice versa)
