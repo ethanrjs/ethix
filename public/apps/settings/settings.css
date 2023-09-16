@@ -90,7 +90,8 @@ p {
 
 #settings-content hr {
     /* #333 */
-    border: 1px solid #ccc;
+    border: none;
+    border-bottom: 1px solid #ccc;
 }
 
 #settings-content ul {
@@ -111,4 +112,40 @@ p {
 #settings-content ul li span {
     font-size: 2rem;
     font-weight: 400;
+}
+
+#settings-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#settings-options .settings-options-option {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    height: 3rem;
+}
+
+#settings-options .settings-options-option p {
+    width: 90%;
+}
+
+#settings-options .settings-options-option:hover {
+    background-color: #e0e0e0;
+}
+
+#settings-options .settings-options-option span {
+    color: #727272;
+    font-size: 3rem;
+    user-select: none;
+
+}
+
+#settings-options .settings-options-option.enabled span {
+    color: #336dff;
 }

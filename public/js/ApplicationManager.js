@@ -5,9 +5,19 @@
  * @property {string} name - The name of the program.
  * @property {string} windowId - The id of the window element.
  * @property {string} startButtonId - The id of the start button element.
+ * @property {string} htmlFile - The path to the html file.
+ * @property {string | string[]} stylesheets - The path(s) to the stylesheet(s).
+ * @property {function} onLoad - The function to call when the program is loaded.
  */
 export class Program {
-    constructor(name, windowId, startButtonId, htmlFile, stylesheets = []) {
+    constructor(
+        name,
+        windowId,
+        startButtonId,
+        htmlFile,
+        stylesheets = [],
+        onLoad
+    ) {
         this.name = name;
         this.windowId = windowId;
         this.startButtonId = startButtonId;
@@ -15,6 +25,9 @@ export class Program {
         this.stylesheets = Array.isArray(stylesheets)
             ? stylesheets
             : [stylesheets];
+
+        this.onLoad = onLoad;
+
         this.init();
     }
 
@@ -22,6 +35,7 @@ export class Program {
         await ApplicationManager.loadHtml(this);
         document.getElementById(this.windowId).style.display = 'none';
         AppManager.registerProgram(this);
+        this.onLoad();
     }
 
     start() {
@@ -236,10 +250,12 @@ export class ApplicationManager {
 
     static async loadHtml(program) {
         return new Promise((resolve, reject) => {
+            console.log(`Loading ${program.name} HTML...`);
             const xhr = new XMLHttpRequest();
             xhr.open('GET', program.htmlFile, true);
             xhr.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
+                    console.log(`${program.name} HTML loaded successfully.`);
                     const body = document.querySelector('body');
                     body.insertAdjacentHTML('beforeend', this.responseText);
                     // make window movable
