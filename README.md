@@ -19,8 +19,9 @@ change settings, and more.
 
 ### Backend
 
--   Node.js
--   Express.js
+-   Bun
+-   StricJS
+-   Typescript
 
 ## Making a Program
 
@@ -63,3 +64,4 @@ TODO: Create documentation for interacting with the OS
 ### Backend
 
 TODO: Create documentation for interacting with the backend package manager and appfetcher.
+TODO: Port to https://bun.sh
