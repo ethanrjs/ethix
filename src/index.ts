@@ -1,28 +1,7 @@
 import fs from 'fs';
 import { Router } from '@stricjs/router';
-import { macro } from '@stricjs/router';
-import { file, dir, group } from '@stricjs/utils';
+import { file, group } from '@stricjs/utils';
 
-// new Elysia()
-//   .use(staticPlugin({
-//     assets: 'public'
-//   })) // defaults to /public
-
-//   .get('/', () => Bun.file('public/index.html'))
-//   .get('/scripts', async () => {
-//     const scriptPaths = [];
-//     const folders = await fs.promises.readdir('public/apps');
-//     for (const folder of folders) {
-//       const files = await fs.promises.readdir(`public/apps/${folder}`);
-//       for (const file of files) {
-//         if (file.endsWith('.js')) {
-//           scriptPaths.push(`apps/${folder}/${file}`);
-//         }
-//       }
-//     }
-//     return scriptPaths;
-//   })
-//   .listen(6543);
 const plugin = group('public');
 
 export default new Router({
@@ -31,15 +10,16 @@ export default new Router({
   .plug(plugin)
   .get('/', file('public/index.html'))
   .get('/scripts', async () => {
-    const scriptPaths = [];
+    const scriptPaths: string[] = [];
     const folders = await fs.promises.readdir('public/apps');
-    for (const folder of folders) {
+
+    const folderPromises = folders.map(async (folder) => {
       const files = await fs.promises.readdir(`public/apps/${folder}`);
-      for (const file of files) {
-        if (file.endsWith('.js')) {
-          scriptPaths.push(`apps/${folder}/${file}`);
-        }
-      }
-    }
+      return files.filter(file => file.endsWith('.js')).map(file => `apps/${folder}/${file}`);
+    });
+
+    const nestedScriptPaths = await Promise.all(folderPromises);
+    nestedScriptPaths.forEach(paths => scriptPaths.push(...paths));
+
     return Response.json(scriptPaths);
-  })
+  });

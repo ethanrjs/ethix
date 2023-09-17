@@ -1,18 +1,18 @@
 {
-  "name": "app",
-  "version": "1.0.50",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts",
-    "create-app": "bun run create-app.js"
-  },
-  "dependencies": {
-    "@stricjs/router": "^4.2.1",
-    "@stricjs/utils": "^1.5.1",
-    "inquirer": "^9.2.11"
-  },
-  "devDependencies": {
-    "bun-types": "latest"
-  },
-  "module": "src/index.js"
+    "name": "app",
+    "version": "1.0.50",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "bun run --watch src/index.ts",
+        "create-app": "bun run create-app.js"
+    },
+    "dependencies": {
+        "@stricjs/router": "^4.2.1",
+        "@stricjs/utils": "^1.5.1",
+        "inquirer": "^9.2.11"
+    },
+    "devDependencies": {
+        "bun-types": "latest"
+    },
+    "module": "src/index.js"
 }
