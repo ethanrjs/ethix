@@ -106,7 +106,7 @@ function appHtmlTemplate(name, identifier) {
 }
 
 function appCssTemplate(identifier) {
-    return `${identifier}-content {
+    return `#${identifier}-content {
     padding: 1rem;
 }`;
 }

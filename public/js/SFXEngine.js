@@ -2,6 +2,7 @@
 
 import { createNotification } from './NotificationManager.js';
 
+let sounds = [];
 export function SFXSound(name) {
     // play sound assets/sounds/name.wav
     let sound = new Audio('assets/sounds/' + name + '.wav');
@@ -38,5 +39,12 @@ async function checkAutoplay() {
     }
 }
 
+export async function playSound(path, volume) {
+    // load a sound into memory relative to where the function is called
+    const audio = new Audio(path);
+    audio.volume = volume;
+    await audio.play();
+    audio.remove();
+}
 // execute the function
 checkAutoplay();
