@@ -184,3 +184,14 @@ p {
     font-size: 1.1rem;
     font-weight: 400;
 }
+
+#settings-page-notice {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    color: gray;
+
+    margin-top: 4rem;
+}
