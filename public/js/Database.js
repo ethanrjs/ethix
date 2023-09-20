@@ -31,7 +31,10 @@ export default class Database {
 
                 const request = store.put(value, key);
 
-                request.onsuccess = () => resolve(true);
+                request.onsuccess = () => {
+                    console.log(`DATABASE >> set ${key} to ${value}`);
+                    resolve();
+                };
                 request.onerror = () => reject(request.error);
             };
 
@@ -52,7 +55,10 @@ export default class Database {
 
                 const request = store.get(key);
 
-                request.onsuccess = () => resolve(request.result);
+                request.onsuccess = () => {
+                    console.log(`DATABASE >> get ${key} = ${request.result}`);
+                    resolve(request.result);
+                };
                 request.onerror = () => reject(request.error);
             };
 

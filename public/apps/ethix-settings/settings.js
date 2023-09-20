@@ -78,15 +78,17 @@ async function main() {
     // note: this function runs when page is loaded
     const imagePickers = document.querySelectorAll('.image-pick-input');
     imagePickers.forEach(picker => {
-        const option = picker.dataset.option;
-
         picker.addEventListener('change', async () => {
             const file = picker.files[0];
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onloadend = async () => {
+                const data = reader.result;
+                console.log(data);
+                options['background'] = data;
+                await db.set('settings', JSON.stringify(options));
+
                 loadSettings();
-                await db.set(option, reader.result);
             };
         });
     });
@@ -100,7 +102,12 @@ async function main() {
             e.preventDefault();
             const option = interact.dataset.option;
             const defaultValue = interact.dataset.default;
-
+            console.log(
+                'reset detected -- changing option ' +
+                    option +
+                    ' to ' +
+                    defaultValue
+            );
             interact.value = defaultValue;
 
             options[option] = defaultValue;
@@ -108,8 +115,6 @@ async function main() {
             await db.set('settings', JSON.stringify(options));
             loadSettings();
         });
-
-        loadSettings();
     });
 
     // #option-interact
@@ -120,24 +125,15 @@ async function main() {
     const backgroundStyle = document.querySelector('#background-style-pick');
     backgroundStyle.addEventListener('change', async () => {
         const value = backgroundStyle.value;
-        await db.set('background-style', value);
-
-        // set background
+        options['background-style'] = value;
+        await db.set('settings', JSON.stringify(options));
         loadSettings();
-
-        console.log('set background style to ' + value);
     });
 
     loadSettings();
 }
 
 async function loadSettings() {
-    // load all settings from indexed db
-    // then process the changes they make
-
-    // 1. desktop icons
-    // 2. background
-
     const settings = await db.get('settings');
     if (settings) {
         options = JSON.parse(settings);
@@ -163,13 +159,13 @@ async function loadSettings() {
         toggler.textContent = 'toggle_off';
     }
 
-    const background = await db.get('background');
+    const background = options['background'];
     if (background) {
         document.body.style.backgroundImage = `url(${background})`;
     }
 
     // change background style
-    const backgroundStyle = await db.get('background-style');
+    const backgroundStyle = options['background-style'];
     if (backgroundStyle) {
         // if value is 'stretch', set background size to 100% 100%
         // if value is 'fill', set background size to cover, change other properties if needed
@@ -185,8 +181,8 @@ async function loadSettings() {
             document.body.style.backgroundPosition = 'center';
             document.body.style.backgroundRepeat = 'no-repeat';
         } else if (backgroundStyle === 'center') {
-            document.body.style.backgroundSize = 'auto';
-            document.body.style.backgroundPosition = 'center';
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundPosition = '';
             document.body.style.backgroundRepeat = 'no-repeat';
         } else if (backgroundStyle === 'tile') {
             document.body.style.backgroundSize = 'auto';
