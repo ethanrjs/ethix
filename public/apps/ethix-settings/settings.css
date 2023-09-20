@@ -149,3 +149,12 @@ p {
 #settings-options .settings-options-option.enabled span {
     color: #336dff;
 }
+
+#settings-options .image-pick:hover {
+    color: #336dff;
+    cursor: pointer;
+}
+
+#settings-options input {
+    display: none;
+}

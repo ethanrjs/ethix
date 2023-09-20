@@ -10,8 +10,11 @@ html {
 
 body {
     background-image: url('../assets/backdrop-one-blue.svg');
+
+    /* make background image stretch to fill screen, warp if needed */
+    background-size: 100% 100%;
     background-repeat: no-repeat;
-    background-size: cover;
+
 
     height: 100%;
     margin: 0;

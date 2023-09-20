@@ -2,7 +2,7 @@
 <div id="settings-content-wrap">
     <div id="settings-sidebar">
         <!-- general, appearance, security, about, advanced -->
-        <div class="settings-sidebar-item active">
+        <div class="settings-sidebar-item active" data-tab="General">
             <div class="settings-sidebar-item-icon">
                 <span class="material-symbols-rounded">
                     settings
@@ -12,7 +12,7 @@
                 General
             </div>
         </div>
-        <div class="settings-sidebar-item">
+        <div class="settings-sidebar-item" data-tab="Appearance">
             <div class="settings-sidebar-item-icon">
                 <span class="material-symbols-rounded">
                     palette
@@ -22,7 +22,7 @@
                 Appearance
             </div>
         </div>
-        <div class="settings-sidebar-item">
+        <div class="settings-sidebar-item" data-tab="Security">
             <div class="settings-sidebar-item-icon">
                 <span class="material-symbols-rounded">
                     security
@@ -32,7 +32,7 @@
                 Security
             </div>
         </div>
-        <div class="settings-sidebar-item">
+        <div class="settings-sidebar-item" data-tab="Advanced">
             <div class="settings-sidebar-item-icon">
                 <span class="material-symbols-rounded">
                     settings_applications
@@ -42,7 +42,7 @@
                 Advanced
             </div>
         </div>
-        <div class="settings-sidebar-item">
+        <div class="settings-sidebar-item" data-tab="About">
             <div class="settings-sidebar-item-icon">
                 <span class="material-symbols-rounded">
                     info
@@ -54,17 +54,50 @@
         </div>
     </div>
     <div id="settings-content">
-        <div class="settings-page active" id="settings-page-general">
+        <div class="settings-page active" data-page="General">
             <h1>General</h1>
+            <hr>
+            <p>No options yet</p>
+        </div>
+        <div class="settings-page" data-page="Appearance">
+            <h1>Appearance</h1>
             <hr>
             <ul id="settings-options">
                 <li id="settings-options-show-desktop-icons" class="settings-options-option enabled"
                     data-option="show-desktop-icons">
                     <p>Show Desktop Icons</p>
-                    <span class="material-symbols-rounded fill">
+                    <span class="material-symbols-rounded fill toggler option-interact" data-option="show-desktop-icons"
+                        data-default="toggle_on">
                         toggle_on
                     </span>
                 </li>
+                <!-- choose background -->
+                <li id="settings-options-background" class="settings-options-option" data-option="background">
+                    <p>Choose Background</p>
+                    <input type="file" class="image-pick-input" data-option="background" id="background-image-pick"
+                        accept="image/*">
+                    <label for="background-image-pick">
+                        <span class="material-symbols-rounded fill image-pick option-interact" data-option="background"
+                            data-default="../assets/backdrop-one-blue.svg">
+                            image
+                        </span>
+                    </label>
+                </li>
+
+                <!-- background fill type dropdown !-->
+                <li id="settings-options-background-style" class="settings-options-option"
+                    data-option="background-style">
+                    <p>Background Style</p>
+                    <!-- stretch, tile, center, fill -->
+                    <select id="background-style-pick" class="option-interact" data-option="background-style">
+                        <option value="center" selected>Center</option>
+                        <option value="stretch">Stretch</option>
+                        <option value="tile">Tile</option>
+                        <option value="fill">Fill</option>
+                    </select>
+                </li>
+
+
             </ul>
         </div>
     </div>
