@@ -48,3 +48,10 @@
     color: white;
     font-family: 'Inter', sans-serif;
 }
+
+.desktop-icon-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
