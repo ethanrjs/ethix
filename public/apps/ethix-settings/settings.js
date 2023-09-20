@@ -96,16 +96,17 @@ async function main() {
     // when a .option-interact is right clicked, set option in data-option to data-default
     const optionInteracts = document.querySelectorAll('.option-interact');
     optionInteracts.forEach(interact => {
-        console.log('loaded interact');
         interact.addEventListener('contextmenu', async e => {
             e.preventDefault();
             const option = interact.dataset.option;
             const defaultValue = interact.dataset.default;
 
+            interact.value = defaultValue;
+
             options[option] = defaultValue;
 
             await db.set('settings', JSON.stringify(options));
-            console.log('set option to default');
+            loadSettings();
         });
 
         loadSettings();
