@@ -158,3 +158,29 @@ p {
 #settings-options input {
     display: none;
 }
+
+#settings-options select {
+    width: 50%;
+    height: 100%;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.15rem;
+    padding-left: 1rem;
+    font-size: 1.1rem;
+    font-weight: 400;
+    background-color: #f0f0f0;
+    color: #727272;
+}
+
+#settings-options select:hover {
+    cursor: pointer;
+}
+
+#settings-options select:focus {
+    outline: none;
+}
+
+#settings-options select option {
+    font-size: 1.1rem;
+    font-weight: 400;
+}
